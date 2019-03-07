@@ -6,11 +6,11 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/15 10:27:47 by axbal             #+#    #+#             */
-/*   Updated: 2018/11/13 13:30:22 by axbal            ###   ########.fr       */
+/*   Updated: 2019/02/23 15:06:46 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 void	copy_lights(t_data *data, t_light **tmp)
 {
@@ -51,9 +51,9 @@ int		get_light_pos(char *file, int select, t_light *light)
 		free(tab);
 		return (-1);
 	}
-	light->px = tab[0];
-	light->py = tab[1];
-	light->pz = tab[2];
+	light->pos.x = tab[0];
+	light->pos.y = tab[1];
+	light->pos.z = tab[2];
 	light->intensity = 100;
 	free(tab);
 	return (select);

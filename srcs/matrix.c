@@ -6,11 +6,11 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 13:33:37 by axbal             #+#    #+#             */
-/*   Updated: 2018/11/13 15:24:51 by ceugene          ###   ########.fr       */
+/*   Updated: 2019/03/04 14:26:28 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 #include <math.h>
 
 t_vec	rot_x(t_vec ray, float teta)
@@ -55,6 +55,15 @@ t_vec	rot_vec(t_vec ray, float rx, float ry, float rz)
 	ray = rot_y(ray, degree_to_radian(ry));
 	if (rz != 0)
 		ray = rot_z(ray, degree_to_radian(rz));
+	return (ray);
+}
+
+t_vec	unrot_vec(t_vec ray, float rx, float ry, float rz)
+{
+	if (rz != 0)
+		ray = rot_z(ray, -degree_to_radian(rz));
+	ray = rot_y(ray, -degree_to_radian(ry));
+	ray = rot_x(ray, -degree_to_radian(rx));
 	return (ray);
 }
 

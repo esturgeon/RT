@@ -9,6 +9,7 @@ object {
 	rotation(90, 0)
 	radius(5)
 	color(125, 137, 94)
+	sinus
 }
 
 object {
@@ -17,6 +18,7 @@ object {
 	rotation(90, 0)
 	radius(5)
 	color(125, 137, 94)
+	sinus
 }
 
 object {
@@ -25,6 +27,7 @@ object {
 	rotation(90, 0)
 	radius(5)
 	color(125, 137, 94)
+	sinus
 }
 
 object {
@@ -33,6 +36,7 @@ object {
 	rotation(90, 0)
 	radius(5)
 	color(125, 137, 94)
+	sinus
 }
 
 object {
@@ -95,43 +99,52 @@ object {
 object {
 	type(sphere)
 	pos(0, -18, 55)
-	radius(8)
+	radius(15)
 	color(125, 137, 228)
+	mirror(50)
 }
 
 
 object {
 	type(plane)
 	pos(0, 25, 0)
-	vector(0, 1, 0)
+	rotation(90, 0)
 	color(254,195, 248)
 }
 
 object{
 	type(plane)
 	pos(0, -25, 0)
-	vector(0, 1, 0)
+	rotation(90, 0)
 	color(125, 195, 218)
+	checkered
 }
 
 object{
 	type(plane)
 	pos(0, 0, 100)
-	vector(0, 0, 1)
+	rotation(0, 0)
 	color(189, 215, 168)
 }
 
 object{
 	type(plane)
 	pos(-40, 0, 0)
-	vector(1, 0, 0)
+	rotation(0, 90)
 	color(189, 215, 168)
 }
 
 object{
 	type(plane)
 	pos(40, 0, 0)
-	vector(1, 0, 0)
+	rotation(0, 90)
+	color(189, 215, 168)
+}
+
+object{
+	type(plane)
+	pos(0, 0, -20)
+	rotation(0, 0)
 	color(189, 215, 168)
 }
 

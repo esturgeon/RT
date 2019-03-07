@@ -6,12 +6,13 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 13:15:40 by axbal             #+#    #+#             */
-/*   Updated: 2018/11/13 15:24:14 by ceugene          ###   ########.fr       */
+/*   Updated: 2019/02/23 15:05:02 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 #include <math.h>
+#include <pthread.h>
 
 void	rot_rays(t_data *d)
 {
@@ -24,8 +25,8 @@ void	rot_rays(t_data *d)
 		j = 0;
 		while (j < LA)
 		{
-			d->rays[i][j] = rot_vec(d->rays[i][j], d->cam->rx, d->cam->ry,
-				d->cam->rz);
+			d->rays[i][j] = rot_vec(d->rays[i][j], d->cam->vec.x, d->cam->vec.y,
+				d->cam->vec.z);
 			j++;
 		}
 		i++;
@@ -47,17 +48,18 @@ void	malloc_rays(t_data *d)
 	}
 }
 
-void	gen_rays(t_data *d)
+void	*mt_rays(void *data)
 {
-	int		i;
-	int		j;
+	t_data *d;
 	t_dot	p1;
 	t_dot	p2;
+	int		i;
+	int		j;
 
-	i = 0;
+	d = data;
+	i = d->start - 1;
 	p1 = new_dot(0, 0, 0);
-	malloc_rays(d);
-	while (i < HA)
+	while (++i < d->limit)
 	{
 		j = 0;
 		while (j < LA)
@@ -67,7 +69,30 @@ void	gen_rays(t_data *d)
 			norm_vec(&(d->rays[i][j]));
 			j++;
 		}
-		i++;
+	}
+	return (data);
+}
+
+void	gen_rays(t_data *d)
+{
+	pthread_t	thread_tab[4];
+	int			calcul;
+	int			thread_nb;
+
+	thread_nb = 4;
+	calcul = HA / thread_nb;
+	d->start = 0;
+	d->limit = calcul;
+	malloc_rays(d);
+	thread_nb -= 1;
+	while (thread_nb >= 0)
+	{
+		if (pthread_create(&thread_tab[thread_nb], NULL, &mt_rays, d) != 0)
+			ft_fail("Error: Multi-threading failed.", d);
+		pthread_join(thread_tab[thread_nb], NULL);
+		d->start += calcul;
+		d->limit += calcul;
+		thread_nb -= 1;
 	}
 	rot_rays(d);
 }

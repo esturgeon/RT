@@ -30,7 +30,7 @@ object {
 object {
 	type(plane)
 	pos(0,0,200)
-	vector(-10,-10,-10)
+	rotation(45,45)
 	color(125,149,238)
 }
 
@@ -40,16 +40,16 @@ object {
 	pos(5,0,30)
 	radius(2)
 	rotation(20,-60)
-	color(155,155,90)
+	color(255,255,0)
 }
 
 object {
-	shiny
 	type(cone)
-	pos(-20, -5, 50)
+	shiny
+	pos(20, 5, 50)
 	angle(5)
-	rotation(-60, -20)
-	color(212, 164, 249)
+	rotation(60, 20)
+	color(212, 164, 149)
 }
 
 light {

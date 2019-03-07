@@ -17,6 +17,7 @@ object {
 	radius(10)
 	color(246, 228, 246)
 	shiny
+	checkered
 }
 
 object {
@@ -25,20 +26,6 @@ object {
 	radius(10)
 	color(201, 137, 134)
 	shiny
-}
-
-object {
-	type(plane)
-	pos(-50, -50, 0)
-	color(244, 244, 244)
-	vector(1, 1, 0.2)
-}
-
-object {
-	type(plane)
-	pos(50, 50, 0)
-	color(137, 87, 92)
-	vector(1, 1, -0.2)
 }
 
 light {

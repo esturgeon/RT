@@ -10,11 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 #include <fcntl.h>
 
 void		ft_return(char *str, t_data *d)
 {
+	if (d->img0 == NULL)
+	{
+		open_scenes_dir(d);
+		set_up_menu(d);
+	}
 	if (d)
 		free_data(d);
 	if (str)
@@ -49,6 +54,8 @@ t_img		*init_img(t_data *data)
 		&img->s_l, &img->endian)))
 		ft_fail("Error: cant create image.", NULL);
 	img->bpp /= 8;
+	img->d4 = 0;
+	img->d5 = 20;
 	return (img);
 }
 
@@ -69,8 +76,6 @@ int			main(int argc, char **argv)
 	data = new_data();
 	if (argc > 2)
 		ft_fail("Usage: rtv1 [input_file]", data);
-	open_scenes_dir(data);
-	set_up_menu(data);
 	if (argc == 2)
 	{
 		loading_screen_bar(data);
@@ -78,7 +83,11 @@ int			main(int argc, char **argv)
 		check_file(data, argv[1]);
 	}
 	else if (argc < 2)
+	{
 		data->current_img = 0;
+		open_scenes_dir(data);
+		set_up_menu(data);
+	}
 	refresh_expose(data);
 	let_mlx_loop(data);
 	return (0);

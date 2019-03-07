@@ -5,6 +5,7 @@ SRCS =	main.c					\
 		events.c				\
 		reading.c				\
 		reading_utilitaries.c	\
+		reading_utilitaries2.c	\
 		read_light.c			\
 		read_cam.c				\
 		read_obj.c				\
@@ -17,7 +18,6 @@ SRCS =	main.c					\
 		matrix.c				\
 		math.c					\
 		shading.c				\
-		light_impact.c			\
 		diffuse.c				\
 		read_lim.c				\
 		check_lim.c				\
@@ -31,10 +31,15 @@ SRCS =	main.c					\
 		list_files.c			\
 		init_data.c				\
 		colors.c				\
+		perlin.c				\
+		reflection.c			\
+		normales.c				\
+		check_rlim.c			\
+		cube.c					\
 
 SRCO = $(SRCS:.c=.o)
 
-HEADER = includes/rtv1.h		\
+HEADER = includes/rt.h		\
 
 FLAGS = -o2 -Wall -Wextra -Werror
 

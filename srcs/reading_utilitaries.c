@@ -6,11 +6,11 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/23 16:10:34 by axbal             #+#    #+#             */
-/*   Updated: 2019/01/10 15:40:32 by ceugene          ###   ########.fr       */
+/*   Updated: 2019/02/23 16:18:17 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 #include <fcntl.h>
 
 float		ft_atof(const char *str)
@@ -93,6 +93,23 @@ char		*start_reading(char *str)
 	return (file);
 }
 
+void		get_vec(t_obj *o)
+{
+	t_vec	v;
+	t_vec	*vec;
+
+	v = new_vec(0, 0, 1);
+	v = rot_vec(v, o->rx, o->ry, 0);
+	norm_vec(&v);
+	if (!(vec = (t_vec *)malloc(sizeof(t_vec) * 1)))
+		ft_fail("Error: Could not allocate memory.", NULL);
+	vec->x = v.x;
+	vec->y = v.y;
+	vec->z = v.z;
+	o->vector_c += 1;
+	o->v = vec;
+}
+
 int			get_object_rot(char *f, int s, t_obj *obj)
 {
 	float	*tab;
@@ -107,6 +124,8 @@ int			get_object_rot(char *f, int s, t_obj *obj)
 	obj->ry = tab[1];
 	free(tab);
 	obj->rotation_c += 1;
+	if (obj->type == PLANE)
+		get_vec(obj);
 	return (1);
 }
 

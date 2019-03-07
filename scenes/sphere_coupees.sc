@@ -16,10 +16,13 @@ object {
 	pos(0,0,50)
 	radius(25)
 	color(110,80,164)
-	lim_x(-25, 15)
+	plim_x(-25, 15)
 	shiny
 }
 
+light {
+	pos(105,5,-100)
+}
 light {
 	pos(100,0,-100)
 }

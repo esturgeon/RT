@@ -1,4 +1,16 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ceugene <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/27 12:37:21 by ceugene           #+#    #+#             */
+/*   Updated: 2019/02/27 12:37:23 by ceugene          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
 
 void	reset_colors(t_data *d)
 {
@@ -31,6 +43,9 @@ void	malloc_colors(t_data *d)
 
 void	gen_colors(t_data *d)
 {
+	d->green = new_color(180, 250, 180, 0);
+	d->red = new_color(250, 180, 180, 0);
+	d->blue = new_color(180, 180, 250, 0);
 	malloc_colors(d);
 	reset_colors(d);
 }
@@ -38,6 +53,7 @@ void	gen_colors(t_data *d)
 void	init_data(t_data *new)
 {
 	new->img = NULL;
+	new->img0 = NULL;
 	new->img2 = NULL;
 	new->obj = NULL;
 	new->cam = NULL;
@@ -49,9 +65,6 @@ void	init_data(t_data *new)
 	new->t[1] = -1;
 	new->img = init_img(new);
 	new->img2 = init_img(new);
-	new->green = new_color(180, 250, 180, 0);
-	new->red = new_color(250, 180, 180, 0);
-	new->blue = new_color(180, 180, 250, 0);
 	new->a = new_color(0, 0, 0, 0);
 	new->current_img = 1;
 	new->file_name = NULL;
@@ -61,4 +74,5 @@ void	init_data(t_data *new)
 	new->img->gs = 0;
 	new->img->d = 0;
 	new->img->crtn = 0;
+	new->perlin = 0;
 }

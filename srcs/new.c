@@ -6,11 +6,11 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 13:04:35 by axbal             #+#    #+#             */
-/*   Updated: 2019/01/08 12:27:34 by axbal            ###   ########.fr       */
+/*   Updated: 2019/03/04 16:03:15 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 t_dot		new_dot(float x, float y, float z)
 {
@@ -67,14 +67,21 @@ t_obj		*create_object(t_data *data)
 	new->pos_c = 0;
 	new->type_c = 0;
 	new->radius_c = 0;
+	new->vector_c = 0;
 	new->size_c = 0;
 	new->angle_c = 0;
-	new->vector_c = 0;
 	new->rotation_c = 0;
 	new->lim_x_c = 0;
 	new->lim_y_c = 0;
 	new->lim_z_c = 0;
+	new->rlim_x_c = 0;
+	new->rlim_y_c = 0;
+	new->rlim_z_c = 0;
 	new->shiny = 0;
+	new->mirror = -1;
+	new->d1 = 0;
+	new->d2 = 0;
+	new->d3 = 0;
 	new->color = new_color(255, 255, 255, 0);
 	return (new);
 }
