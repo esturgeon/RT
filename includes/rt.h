@@ -6,7 +6,7 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/24 12:05:33 by axbal             #+#    #+#             */
-/*   Updated: 2019/03/04 16:11:03 by axbal            ###   ########.fr       */
+/*   Updated: 2019/03/22 14:36:40 by ceugene          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define CYLINDER 3
 # define CONE 4
 # define CUBE 5
+# define SQUARE 6
 
 typedef struct		s_color
 {
@@ -60,6 +61,12 @@ typedef struct		s_light
 	int				intensity;
 }					t_light;
 
+typedef struct		s_dir
+{
+	t_dot			d;
+	t_vec			v;
+}					t_dir;
+
 typedef struct		s_obj
 {
 	int				type;
@@ -70,6 +77,7 @@ typedef struct		s_obj
 	t_vec			*v;
 	int				rx;
 	int				ry;
+	int				rz;
 	t_color			color;
 	t_vec			(*norm)(struct s_obj *, t_dot);
 	float			lim_x_neg;
@@ -99,9 +107,13 @@ typedef struct		s_obj
 	int				rotation_c;
 	int				shiny;
 	int				mirror;
+	int				neg;
+	int				holes;
 	int				d1;
 	int				d2;
 	int				d3;
+	float			rf;
+	int				trsp;
 }					t_obj;
 
 typedef struct		s_img
@@ -131,17 +143,22 @@ typedef struct		s_data
 	t_img			*img;
 	t_img			*img2;
 	t_obj			**obj;
+	t_obj			**neg;
 	t_light			**light;
 	t_cam			*cam;
 	t_vec			**rays;
 	t_color			**pix_col;
 	int				lights;
 	int				objects;
+	int				negs;
+	int				miter;
+	int				titer;
 	float			s_xmin;
 	float			s_ymin;
 	float			s_xmax;
 	float			s_ymax;
 	int				l;
+	int				i;
 	float			t[2];
 	t_color			a;
 	t_color			green;
@@ -207,7 +224,28 @@ typedef struct		s_sec_r
 	t_dot			inter;
 	int				*tab;
 	int				tab_size;
+	t_dot			dot;
+	t_dot			dot2;
+	t_color			col;
+	int				ret;
+	int				lever;
 }					t_sec_r;
+
+typedef struct		s_perl
+{
+	int				ix;
+	int				igrek;
+	int				zed;
+	int				a;
+	int				b;
+	int				aa;
+	int				ab;
+	int				bb;
+	int				ba;
+	float			u;
+	float			v;
+	float			w;
+}					t_perl;
 
 void				ft_fail(char *str, t_data *data);
 void				ft_return(char *str, t_data *data);
@@ -259,8 +297,9 @@ int					get_object_lim_z(char *f, int s, t_obj *obj);
 int					get_object_rlim_x(char *f, int s, t_obj *obj);
 int					get_object_rlim_y(char *f, int s, t_obj *obj);
 int					get_object_rlim_z(char *f, int s, t_obj *obj);
-int					check_lim(t_obj *o, t_dot dot);
-int					double_check_lim(t_obj *o, t_dot d1, t_dot d2);
+int					get_object_refraction(char *f, int s, t_obj *obj);
+int					check_lim(t_obj *o, t_dot dot, t_dir dir, t_data *d);
+int					double_check_lim(t_obj *o, t_dir dir, t_data *d);
 int					cmp_dot(t_dot d1, t_dot d2);
 float				find_right_distance(t_data *d, t_dot l, t_vec v, t_dot i);
 int					call_side_light_check(t_sec_r s, t_obj *obj, t_data *d);
@@ -284,9 +323,9 @@ t_color				real_lerp(t_color c1, t_color c2, float factor);
 void				init_data(t_data *n);
 void				reset_colors(t_data *d);
 int					color_diff(t_color c1, t_color c2);
-t_color				perlin(t_data *d, int red, int blue, int green, t_dot pt);
+t_color				perlin(t_data *d, t_color c, t_dot pt);
 t_vec				reflect_ray(t_vec *inc, t_vec *norm);
-t_obj				*find_reflection(t_sec_r *s, t_obj *o, t_data *d, t_obj *p);
+t_color				find_reflection(t_color c, t_sec_r s, t_obj *ob, t_data *d);
 int					get_object_mirror(char *f, int s, t_obj *obj);
 t_vec				cylinder_norm(t_obj *o, t_dot inter);
 t_vec				cone_norm(t_obj *o, t_dot inter);
@@ -294,5 +333,26 @@ t_vec				sphere_norm(t_obj *o, t_dot inter);
 int					rel_lim(t_obj *o, t_dot d);
 int					double_rel_lim(t_obj *o, t_dot d1, t_dot d2);
 int					create_cube(t_data *d, t_obj *obj);
+int					check_neg(t_dot dot, t_dir dir, t_data *d);
+void				add_neg(t_data *data, t_obj *obj);
+void				create_square(t_data *d, t_obj *o);
+t_color				transparent(t_color c, t_data *d, t_sec_r s, t_obj *o);
+t_color				init_c(t_data *d, t_obj *obj);
+t_color				find_c(t_sec_r *s, t_color c, t_obj *obj, t_data *d);
+int					expected_result(t_obj *obj);
+int					compare_string_to_values(char *f, int s, t_obj *n);
+t_vec				change_norm(t_dot inter, t_diffuse s, t_data *d, t_obj *o);
+t_color				checkered(t_obj *o, t_dot inter, t_color c1, t_color c2);
+t_color				add_shine(t_sec_r s, t_obj *o, t_color c, t_color b);
+t_dir				newdir(t_dot d, t_vec v);
+int					select_option(int key, t_data *d);
+int					write_options(t_data *d);
+void				ft_string(t_data *d, char *str, int color, int nb);
+float				p_fade(float t);
+float				p_lerp(float t, float a, float b);
+float				p_grad(int hash, float x, float y, float z);
+int					return_permutation(int x, int *p);
+void				gen_permutation(int *tab);
+int					simp_clr(int clr);
 
 #endif

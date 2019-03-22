@@ -6,7 +6,7 @@
 /*   By: ceugene <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 12:37:21 by ceugene           #+#    #+#             */
-/*   Updated: 2019/02/27 12:37:23 by ceugene          ###   ########.fr       */
+/*   Updated: 2019/03/18 18:18:51 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,8 @@ void	gen_colors(t_data *d)
 	reset_colors(d);
 }
 
-void	init_data(t_data *new)
+void	init_data2(t_data *new)
 {
-	new->img = NULL;
-	new->img0 = NULL;
-	new->img2 = NULL;
-	new->obj = NULL;
-	new->cam = NULL;
-	new->light = NULL;
-	new->rays = NULL;
-	new->lights = 0;
-	new->objects = 0;
-	new->t[0] = -1;
-	new->t[1] = -1;
-	new->img = init_img(new);
-	new->img2 = init_img(new);
 	new->a = new_color(0, 0, 0, 0);
 	new->current_img = 1;
 	new->file_name = NULL;
@@ -73,6 +60,29 @@ void	init_data(t_data *new)
 	new->img->sp = 0;
 	new->img->gs = 0;
 	new->img->d = 0;
+	new->img->d5 = 0;
 	new->img->crtn = 0;
 	new->perlin = 0;
+}
+
+void	init_data(t_data *new)
+{
+	new->img = NULL;
+	new->img0 = NULL;
+	new->img2 = NULL;
+	new->obj = NULL;
+	new->neg = NULL;
+	new->cam = NULL;
+	new->light = NULL;
+	new->rays = NULL;
+	new->lights = 0;
+	new->objects = 0;
+	new->negs = 0;
+	new->miter = 0;
+	new->titer = 0;
+	new->t[0] = -1;
+	new->t[1] = -1;
+	new->img = init_img(new);
+	new->img2 = init_img(new);
+	init_data2(new);
 }

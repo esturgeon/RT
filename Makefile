@@ -13,6 +13,7 @@ SRCS =	main.c					\
 		vector.c				\
 		put_pixel.c				\
 		new.c					\
+		create_obj.c			\
 		rays.c					\
 		quadratic.c				\
 		matrix.c				\
@@ -20,6 +21,7 @@ SRCS =	main.c					\
 		shading.c				\
 		diffuse.c				\
 		read_lim.c				\
+		read_rlim.c				\
 		check_lim.c				\
 		light_side.c			\
 		misc_utils.c			\
@@ -32,10 +34,19 @@ SRCS =	main.c					\
 		init_data.c				\
 		colors.c				\
 		perlin.c				\
+		perlin_utils.c			\
 		reflection.c			\
 		normales.c				\
 		check_rlim.c			\
 		cube.c					\
+		square.c				\
+		negobj.c				\
+		transparent.c			\
+		secondary_rays_init.c	\
+		check_obj.c				\
+		effects.c				\
+		options.c				\
+		write_options.c			\
 
 SRCO = $(SRCS:.c=.o)
 

@@ -6,18 +6,44 @@
 /*   By: ceugene <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 12:37:36 by ceugene           #+#    #+#             */
-/*   Updated: 2019/02/27 12:37:37 by ceugene          ###   ########.fr       */
+/*   Updated: 2019/03/22 14:07:39 by ceugene          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	free_obj(int j, t_data *d)
+void	free_obj(t_data *d)
 {
-	if (d->obj[j]->vector_c == 1)
-		free(d->obj[j]->v);
-	free(d->obj[j]);
-	d->obj[j] = NULL;
+	int		j;
+
+	j = -1;
+	while (d->obj && d->objects > 0 && ++j < d->objects)
+	{
+		if (d->obj[j]->vector_c == 1)
+			free(d->obj[j]->v);
+		free(d->obj[j]);
+		d->obj[j] = NULL;
+	}
+	if (d->obj != NULL)
+		free(d->obj);
+}
+
+void	free_neg(t_data *d)
+{
+	int		j;
+
+	j = -1;
+	while (++j < d->negs)
+	{
+		if (d->neg[j]->vector_c == 1)
+			free(d->neg[j]->v);
+		free(d->neg[j]);
+		d->neg[j] = NULL;
+	}
+	if (d->neg != NULL)
+		free(d->neg);
+	d->neg = NULL;
+	d->negs = 0;
 }
 
 void	free_rays(t_data *d)
@@ -40,11 +66,14 @@ void	clear_images(t_data *d)
 	d->light = NULL;
 	d->rays = NULL;
 	d->objects = 0;
+	d->negs = 0;
 	d->lights = 0;
 	d->a = new_color(0, 0, 0, 1);
 	d->current_img = 0;
-	ft_memset(d->img->str, 0, (LA - 1) * d->img->bpp + (HA - 1) * d->img->s_l);
-	ft_memset(d->img2->str, 0, (LA - 1) * d->img2->bpp + (HA - 1) * d->img2->s_l);
+	ft_memset(d->img->str, 0, (LA - 1) * d->img->bpp + (HA - 1)
+		* d->img->s_l);
+	ft_memset(d->img2->str, 0, (LA - 1) * d->img2->bpp + (HA - 1)
+		* d->img2->s_l);
 	loading_screen_bar(d);
 	reset_colors(d);
 	refresh_expose(d);
@@ -66,11 +95,8 @@ void	free_data(t_data *d)
 	}
 	if (d->light != NULL)
 		free(d->light);
-	j = -1;
-	while (d->obj && d->objects > 0 && ++j < d->objects)
-		free_obj(j, d);
-	if (d->obj != NULL)
-		free(d->obj);
+	free_obj(d);
+	free_neg(d);
 	if (d->objects > 0 && d->cam != NULL && d->rays != NULL)
 		free_rays(d);
 	if (d->cam != NULL)

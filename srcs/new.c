@@ -6,7 +6,7 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 13:04:35 by axbal             #+#    #+#             */
-/*   Updated: 2019/03/04 16:03:15 by axbal            ###   ########.fr       */
+/*   Updated: 2019/03/16 15:10:59 by axbal            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ t_color		new_color(int r, int g, int b, int a)
 {
 	t_color		new;
 
-	new.r = r;
-	new.g = g;
-	new.b = b;
-	new.a = a;
+	new.r = ft_clamp(r, 0, 255);
+	new.g = ft_clamp(g, 0, 255);
+	new.b = ft_clamp(b, 0, 255);
+	new.a = ft_clamp(a, 0, 1);
 	return (new);
 }
 
@@ -54,34 +54,5 @@ t_data		*new_data(void)
 	if (!(new->win_ptr = mlx_new_window(new->mlx_ptr, LA, HA, "rt")))
 		ft_fail("Error: Unable to create window.", NULL);
 	init_data(new);
-	return (new);
-}
-
-t_obj		*create_object(t_data *data)
-{
-	t_obj	*new;
-
-	if (!(new = (t_obj *)malloc(sizeof(t_obj))))
-		ft_fail("Error: Could not allocate memory.", data);
-	new->type = 0;
-	new->pos_c = 0;
-	new->type_c = 0;
-	new->radius_c = 0;
-	new->vector_c = 0;
-	new->size_c = 0;
-	new->angle_c = 0;
-	new->rotation_c = 0;
-	new->lim_x_c = 0;
-	new->lim_y_c = 0;
-	new->lim_z_c = 0;
-	new->rlim_x_c = 0;
-	new->rlim_y_c = 0;
-	new->rlim_z_c = 0;
-	new->shiny = 0;
-	new->mirror = -1;
-	new->d1 = 0;
-	new->d2 = 0;
-	new->d3 = 0;
-	new->color = new_color(255, 255, 255, 0);
 	return (new);
 }

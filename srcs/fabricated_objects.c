@@ -6,7 +6,7 @@
 /*   By: axbal <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/08 12:30:01 by axbal             #+#    #+#             */
-/*   Updated: 2019/02/23 14:54:08 by axbal            ###   ########.fr       */
+/*   Updated: 2019/03/22 14:15:46 by ceugene          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ int		get_object_size(char *f, int s, t_obj *obj)
 	return (1);
 }
 
-
 void	fabricated_object(t_data *d, t_obj *obj)
 {
 	if (obj->type == CUBE)
 		create_cube(d, obj);
+	if (obj->type == SQUARE)
+		create_square(d, obj);
 }
